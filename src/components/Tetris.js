@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import _ from "lodash"
 import Pieces from "../Pieces"
 import Board from './Board'
 
@@ -17,10 +18,8 @@ export default class Tetris extends Component {
     }
 
     createRandomPiece = () => {
-        let keys = Object.keys(Pieces)
-        // console.log(Pieces[keys[ keys.length * Math.random() << 0]])
         this.setState({
-            activeSquares: [...Pieces[keys[ keys.length * Math.random() << 0]], ...this.state.activeSquares]
+            activeSquares: [..._.sample(Pieces), ...this.state.activeSquares]
         })
     }
 
