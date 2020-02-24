@@ -8,7 +8,9 @@ export default class Tetris extends Component {
     state = {
         width: 10,
         height: 24,
-        movingPiece: []
+        movingPiece: [],
+        running: false,
+        animationID: null
     }
 
     createSPiece = () => {
@@ -22,6 +24,10 @@ export default class Tetris extends Component {
         this.setState({
             movingPiece: randomPiece
         })
+    }
+
+    startGame = () => {
+        this.createRandomPiece()
     }
 
     handleKeyDown = (event) => {
@@ -40,20 +46,43 @@ export default class Tetris extends Component {
     }
 
     movePiece = (changeX = 0, changeY = 0) => {
-        this.setState({
-            movingPiece: [...this.state.movingPiece.map(square => {
-                return {
-                    coordX: square.coordX + changeX,
-                    coordY: square.coordY + changeY,
-                    appear: square.appear
-                }
-            })]
+        if (!this.checkMoveCollision(changeX, changeY)) {
+            this.setState({
+                movingPiece: [...this.state.movingPiece.map(square => {
+                    return {
+                        coordX: square.coordX + changeX,
+                        coordY: square.coordY + changeY,
+                        appear: square.appear
+                    }
+                })]
+            })
+        }
+    }
+
+    checkMoveCollision = (changeX, changeY) => {
+        return this.collidingPieces().find(coord => {
+            return (
+                coord.coordX + changeX >= this.state.width 
+                || coord.coordX + changeX < 0 
+                || coord.coordY + changeY >= this.state.height)
+        }) ? true : false
+    }
+
+    collidingPieces = () => {
+        return this.state.movingPiece.filter(coord => {
+            return coord.appear === true
         })
     }
 
+    droppingAnimation = () => {
+        this.movePiece(0, 1)
+        setTimeout(this.droppingAnimation, 200)
+    }
+
     rotatePiece = () => {
-        let rotated = this.state.movingPiece
-        let savedAppear = this.state.movingPiece.map(coord => {
+
+        let rotated = Object.assign([], this.state.movingPiece);
+        let savedAppear = [...this.state.movingPiece].map(coord => {
             return coord.appear
         })
 
@@ -79,6 +108,47 @@ export default class Tetris extends Component {
         })
     }
 
+    //Revisit
+    // checkRotateCollision = () => {
+    //     let rotateTester = this.state.movingPiece.map(fuck => { return fuck })
+    //     let savedAppearTester = [...this.state.movingPiece].map(coord => {
+    //         return coord.appear
+    //     })
+
+    //     rotateTester[0].appear = savedAppearTester[12]
+    //     rotateTester[1].appear = savedAppearTester[8]
+    //     rotateTester[2].appear = savedAppearTester[4]
+    //     rotateTester[3].appear = savedAppearTester[0]
+    //     rotateTester[4].appear = savedAppearTester[13]
+    //     rotateTester[5].appear = savedAppearTester[9]
+    //     rotateTester[6].appear = savedAppearTester[5]
+    //     rotateTester[7].appear = savedAppearTester[1]
+    //     rotateTester[8].appear = savedAppearTester[14]
+    //     rotateTester[9].appear = savedAppearTester[10]
+    //     rotateTester[10].appear = savedAppearTester[6]
+    //     rotateTester[11].appear = savedAppearTester[2]
+    //     rotateTester[12].appear = savedAppearTester[15]
+    //     rotateTester[13].appear = savedAppearTester[11]
+    //     rotateTester[14].appear = savedAppearTester[7]
+    //     rotateTester[15].appear = savedAppearTester[3]
+
+    //     return rotateTester.find(coord => {
+    //         return (
+    //             coord.coordX >= this.state.width 
+    //             || coord.coordX < 0 
+    //             || coord.coordY >= this.state.height)
+    //     }) ? true : false
+    // }
+
+    componentDidUpdate = () => {
+        if (!this.state.running) {
+            this.setState({
+                running: true
+            })
+            this.droppingAnimation()
+        }
+    }
+
     render() {
         return (
             <div 
@@ -96,6 +166,12 @@ export default class Tetris extends Component {
                 <button
                     onClick={this.createRandomPiece}
                 >Add random piece</button>
+                <button
+                    onClick={this.startGame}
+                >Start</button>
+                <button
+                    onClick={this.stopGame}
+                >Stop</button>
             </div>
         )
     }
