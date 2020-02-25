@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import sample from 'lodash/sample'
 import isEqual from "lodash/isEqual"
+import includes from "lodash/includes"
 import Pieces from "../Pieces"
 import Board from './Board'
 
@@ -177,7 +178,8 @@ export default class Tetris extends Component {
     }
 
     clearCompleteLines = () => {
-        let removingLine = this.state.pilePieces
+        let copyOfState = [...this.state.pilePieces]
+
         let blocksInEachLine = this.state.pilePieces.reduce((memo, coord) => {
             if (isNaN(memo[coord.coordY] + coord.coordX)){
                 memo[coord.coordY] = coord.coordX
@@ -185,21 +187,25 @@ export default class Tetris extends Component {
                 memo[coord.coordY] += coord.coordX
             }
             return memo
-        },[]) 
-        
-        console.log("before line removed", removingLine)
-        blocksInEachLine.forEach((count, lineToClear) => {
-            if (count >= 45){
-                console.log("line to clear", lineToClear)
-                removingLine.forEach((coord, index) => {
-                    if (coord.coordY === lineToClear){
-                        removingLine.splice(index)
-                        blocksInEachLine[lineToClear] = 0
-                    }
-                })
+        },[])
+
+        let linesToRemove = blocksInEachLine.reduce((memo, count, index) => {
+            if (count >= 45) {
+                memo.push(index)
             }
+            return memo
+        }, [])
+
+        let removedLines = copyOfState.reduce((memo, coord) => {
+            if (!includes(linesToRemove, coord.coordY)){
+                memo.push(coord)
+            }
+            return memo
+        }, [])
+
+        this.setState({
+            pilePieces: removedLines
         })
-        console.log("removed line", removingLine)
     }
 
     componentDidUpdate = () => {
