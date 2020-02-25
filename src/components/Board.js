@@ -1,7 +1,7 @@
 import React from 'react'
 import Row from './Row'
 
-export default function Board({ width, height, movingPiece}) {
+export default function Board({ width, height, movingPiece, pilePieces }) {
 
     let stackOfRows = []
     for (let i = 0; i < height; i++){
@@ -11,6 +11,7 @@ export default function Board({ width, height, movingPiece}) {
             boardY={i}
             width={width}
             movingPiece={movingPiece.filter(coord => {return coord.coordY === i})}
+            pilePieces={pilePieces.filter(coord => {return coord.coordY === i})}
         />)
     }
 

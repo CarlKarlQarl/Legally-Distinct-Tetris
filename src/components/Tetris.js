@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import sample from 'lodash/sample'
+import isEqual from "lodash/isEqual"
 import Pieces from "../Pieces"
 import Board from './Board'
 
@@ -9,8 +10,8 @@ export default class Tetris extends Component {
         width: 10,
         height: 24,
         movingPiece: [],
-        running: false,
-        animationID: null
+        pilePieces: [],
+        running: false
     }
 
     createSPiece = () => {
@@ -46,7 +47,13 @@ export default class Tetris extends Component {
     }
 
     movePiece = (changeX = 0, changeY = 0) => {
-        if (!this.checkMoveCollision(changeX, changeY)) {
+        
+        if (this.checkBottomCollision(changeY)){
+            this.setState({
+                pilePieces: [...this.state.pilePieces, ...this.collidingPieces()],
+            }, this.createRandomPiece)
+        }
+        else if (!this.checkLeftRightCollision(changeX)) {
             this.setState({
                 movingPiece: [...this.state.movingPiece.map(square => {
                     return {
@@ -59,13 +66,35 @@ export default class Tetris extends Component {
         }
     }
 
-    checkMoveCollision = (changeX, changeY) => {
+    checkLeftRightCollision = (changeX) => {
         return this.collidingPieces().find(coord => {
             return (
                 coord.coordX + changeX >= this.state.width 
-                || coord.coordX + changeX < 0 
-                || coord.coordY + changeY >= this.state.height)
+                || coord.coordX + changeX < 0
+                || this.state.pilePieces.find(pileCoord => {
+                    return this.collidingPieces().find(pieceCoord => {
+                        return isEqual(pileCoord, {
+                            coordX: pieceCoord.coordX + changeX, 
+                            coordY: pieceCoord.coordY, 
+                            appear: pieceCoord.appear})
+                    })
+                })
+            )
         }) ? true : false
+    }
+
+    checkBottomCollision = (changeY) => {
+        return (
+            this.collidingPieces().find(coord => {return coord.coordY + changeY >= this.state.height}) 
+            || this.state.pilePieces.find(pileCoord => {
+                return this.collidingPieces().find(pieceCoord => {
+                    return isEqual(pileCoord, {
+                        coordX: pieceCoord.coordX, 
+                        coordY: pieceCoord.coordY + changeY, 
+                        appear: pieceCoord.appear})
+                })
+            })
+        ) ? true : false
     }
 
     collidingPieces = () => {
@@ -159,6 +188,7 @@ export default class Tetris extends Component {
                     width={this.state.width}
                     height={this.state.height}
                     movingPiece={this.state.movingPiece}
+                    pilePieces={this.state.pilePieces}
                 />
                 <button
                     onClick={this.createSPiece}
