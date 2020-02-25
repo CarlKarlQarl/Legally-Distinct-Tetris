@@ -49,9 +49,7 @@ export default class Tetris extends Component {
     movePiece = (changeX = 0, changeY = 0) => {
         
         if (this.checkBottomCollision(changeY)){
-            this.setState({
-                pilePieces: [...this.state.pilePieces, ...this.collidingPieces()],
-            }, this.createRandomPiece)
+            this.nextPiece()
         }
         else if (!this.checkLeftRightCollision(changeX)) {
             this.setState({
@@ -110,7 +108,7 @@ export default class Tetris extends Component {
 
     rotatePiece = () => {
 
-        let rotated = Object.assign([], this.state.movingPiece);
+        let rotated = this.state.movingPiece
         let savedAppear = [...this.state.movingPiece].map(coord => {
             return coord.appear
         })
@@ -168,6 +166,41 @@ export default class Tetris extends Component {
     //             || coord.coordY >= this.state.height)
     //     }) ? true : false
     // }
+
+    nextPiece = () => {
+        this.setState({
+            pilePieces: [...this.state.pilePieces, ...this.collidingPieces()],
+        }, () => {
+            this.clearCompleteLines()
+            this.createRandomPiece()
+        })
+    }
+
+    clearCompleteLines = () => {
+        let removingLine = this.state.pilePieces
+        let blocksInEachLine = this.state.pilePieces.reduce((memo, coord) => {
+            if (isNaN(memo[coord.coordY] + coord.coordX)){
+                memo[coord.coordY] = coord.coordX
+            } else {
+                memo[coord.coordY] += coord.coordX
+            }
+            return memo
+        },[]) 
+        
+        console.log("before line removed", removingLine)
+        blocksInEachLine.forEach((count, lineToClear) => {
+            if (count >= 45){
+                console.log("line to clear", lineToClear)
+                removingLine.forEach((coord, index) => {
+                    if (coord.coordY === lineToClear){
+                        removingLine.splice(index)
+                        blocksInEachLine[lineToClear] = 0
+                    }
+                })
+            }
+        })
+        console.log("removed line", removingLine)
+    }
 
     componentDidUpdate = () => {
         if (!this.state.running) {
