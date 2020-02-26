@@ -178,33 +178,53 @@ export default class Tetris extends Component {
     }
 
     clearCompleteLines = () => {
+        //Make a copy of state to work on
         let copyOfState = [...this.state.pilePieces]
 
+        //Get a count of the number of blocks in each row
+        //Adds the X coordinate + 1 because of the zero index
         let blocksInEachLine = this.state.pilePieces.reduce((memo, coord) => {
             if (isNaN(memo[coord.coordY] + coord.coordX)){
-                memo[coord.coordY] = coord.coordX
+                memo[coord.coordY] = coord.coordX + 1
             } else {
-                memo[coord.coordY] += coord.coordX
+                memo[coord.coordY] += coord.coordX + 1
             }
             return memo
         },[])
 
+        //Converts the block counts into line numbers that need to be removed
         let linesToRemove = blocksInEachLine.reduce((memo, count, index) => {
-            if (count >= 45) {
+            if (count >= 55) {
                 memo.push(index)
             }
             return memo
         }, [])
 
-        let removedLines = copyOfState.reduce((memo, coord) => {
+        //Goes to the line number and removes the whole row
+        let pileWithRemovedLines = copyOfState.reduce((memo, coord) => {
             if (!includes(linesToRemove, coord.coordY)){
                 memo.push(coord)
             }
             return memo
         }, [])
 
+        //Shifts the pile down for each line that was cleared
+        let pileShiftedDown = pileWithRemovedLines.map(coord => {
+            let shift = linesToRemove.reduce((memo, line) => {
+                if (coord.coordY < line){
+                    memo += 1
+                }
+                return memo
+            }, 0)
+            return {
+                coordX: coord.coordX,
+                coordY: coord.coordY + shift,
+                appear: coord.appear
+            }
+        })
+
         this.setState({
-            pilePieces: removedLines
+            pilePieces: pileShiftedDown
         })
     }
 
