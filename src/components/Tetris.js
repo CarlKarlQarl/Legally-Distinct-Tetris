@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import sample from 'lodash/sample'
-import isEqual from "lodash/isEqual"
 import includes from "lodash/includes"
 import Pieces from "../Pieces"
 import Board from './Board'
@@ -48,7 +47,6 @@ export default class Tetris extends Component {
     }
 
     movePiece = (changeX = 0, changeY = 0) => {
-        
         if (this.checkBottomCollision(changeY)){
             this.nextPiece()
         }
@@ -58,7 +56,8 @@ export default class Tetris extends Component {
                     return {
                         coordX: square.coordX + changeX,
                         coordY: square.coordY + changeY,
-                        appear: square.appear
+                        appear: square.appear,
+                        color: square.color
                     }
                 })]
             })
@@ -72,10 +71,11 @@ export default class Tetris extends Component {
                 || coord.coordX + changeX < 0
                 || this.state.pilePieces.find(pileCoord => {
                     return this.collidingPieces().find(pieceCoord => {
-                        return isEqual(pileCoord, {
-                            coordX: pieceCoord.coordX + changeX, 
-                            coordY: pieceCoord.coordY, 
-                            appear: pieceCoord.appear})
+                        return (
+                            pileCoord.coordX === pieceCoord.coordX + changeX
+                            && pileCoord.coordY === pieceCoord.coordY
+                            && pileCoord.appear === pieceCoord.appear
+                        )
                     })
                 })
             )
@@ -87,10 +87,11 @@ export default class Tetris extends Component {
             this.collidingPieces().find(coord => {return coord.coordY + changeY >= this.state.height}) 
             || this.state.pilePieces.find(pileCoord => {
                 return this.collidingPieces().find(pieceCoord => {
-                    return isEqual(pileCoord, {
-                        coordX: pieceCoord.coordX, 
-                        coordY: pieceCoord.coordY + changeY, 
-                        appear: pieceCoord.appear})
+                    return (
+                        pileCoord.coordX === pieceCoord.coordX 
+                        && pileCoord.coordY === pieceCoord.coordY + changeY 
+                        && pileCoord.appear === pieceCoord.appear
+                    )
                 })
             })
         ) ? true : false
@@ -108,8 +109,7 @@ export default class Tetris extends Component {
     }
 
     rotatePiece = () => {
-
-        let rotated = this.state.movingPiece
+        let rotated = [...this.state.movingPiece]
         let savedAppear = [...this.state.movingPiece].map(coord => {
             return coord.appear
         })
@@ -219,7 +219,8 @@ export default class Tetris extends Component {
             return {
                 coordX: coord.coordX,
                 coordY: coord.coordY + shift,
-                appear: coord.appear
+                appear: coord.appear,
+                color: coord.color
             }
         })
 
