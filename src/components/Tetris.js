@@ -13,7 +13,9 @@ export default class Tetris extends Component {
         movingPiece: [],
         pilePieces: [],
         running: false,
-        score: 0
+        level: 0,
+        score: 0,
+        lines: 0
     }
 
     createSPiece = () => {
@@ -107,7 +109,7 @@ export default class Tetris extends Component {
 
     droppingAnimation = () => {
         this.movePiece(0, 1)
-        setTimeout(this.droppingAnimation, 200)
+        setTimeout(this.droppingAnimation, 500 - (this.state.level * 75))
     }
 
     rotatePiece = () => {
@@ -173,6 +175,7 @@ export default class Tetris extends Component {
     nextPiece = () => {
         this.setState({
             pilePieces: [...this.state.pilePieces, ...this.collidingPieces()],
+            score: this.state.score + 1
         }, () => {
             this.clearCompleteLines()
             this.createRandomPiece()
@@ -226,8 +229,29 @@ export default class Tetris extends Component {
             }
         })
 
+        let pointsScored = 0
+        switch(linesToRemove.length){
+            case 1:
+                pointsScored = 40 * (this.state.level + 1)
+                break
+            case 2:
+                pointsScored = 100 * (this.state.level + 1)
+                break
+            case 3:
+                pointsScored = 300 * (this.state.level + 1)
+                break
+            case 4:
+                pointsScored = 1200 * (this.state.level + 1)
+                break
+            default:
+                break
+        }
+
         this.setState({
-            pilePieces: pileShiftedDown
+            pilePieces: pileShiftedDown,
+            level: Math.floor((this.state.lines + linesToRemove.length) / 10),
+            score: this.state.score + pointsScored,
+            lines: this.state.lines + linesToRemove.length
         })
     }
 
@@ -256,7 +280,9 @@ export default class Tetris extends Component {
                     createSPiece={this.createSPiece}
                     createRandomPiece={this.createRandomPiece}
                     startGame={this.startGame}
+                    level={this.state.level}
                     score={this.state.score}
+                    lines={this.state.lines}
                 />
             </div>
         )

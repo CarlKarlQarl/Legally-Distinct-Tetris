@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Stats({ createSPiece, createRandomPiece, startGame, score }) {
+export default function Stats({ createSPiece, createRandomPiece, startGame, level, score, lines }) {
     return (
         <div>
             <button
@@ -12,7 +12,9 @@ export default function Stats({ createSPiece, createRandomPiece, startGame, scor
             <button
                 onClick={startGame}
             >Start</button>
+            <p>Level: {level}</p>
             <p>Score: {score}</p>
+            <p>Lines: {lines}</p>
         </div>
     )
 }
