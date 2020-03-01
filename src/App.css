@@ -19,9 +19,15 @@
   flex-direction: column;
 }
 
+.tetris{
+  display: flex;
+  flex-direction: row;
+}
+
 .App{
   display: flex;
   justify-content: center;
+  background-color: grey;
 }
 
 .piece{
@@ -34,28 +40,42 @@
 
 .red{
   background-color: red;
+  border-style: outset;
+  border-color: rgb(217,0,0);
 }
 
 .blue{
   background-color: blue;
+  border-style: outset;
+  border-color: rgb(0,0,217);
 }
 
 .cyan{
   background-color: cyan;
+  border-style: outset;
+  border-color: rgb(0,217,217);
 }
 
 .orange{
   background-color: orange;
+  border-style: outset;
+  border-color: rgb(217,145,0);
 }
 
 .green{
   background-color: green;
+  border-style: outset;
+  border-color: rgb(0,217,0);
 }
 
 .yellow{
   background-color: yellow;
+  border-style: outset;
+  border-color: rgb(217,217,0);
 }
 
 .purple{
   background-color: purple;
+  border-style: outset;
+  border-color: rgb(145,0,217);
 }
