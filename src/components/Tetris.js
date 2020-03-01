@@ -3,6 +3,7 @@ import sample from 'lodash/sample'
 import includes from "lodash/includes"
 import Pieces from "../Pieces"
 import Board from './Board'
+import Stats from './Stats'
 
 export default class Tetris extends Component {
 
@@ -11,7 +12,8 @@ export default class Tetris extends Component {
         height: 24,
         movingPiece: [],
         pilePieces: [],
-        running: false
+        running: false,
+        score: 0
     }
 
     createSPiece = () => {
@@ -250,18 +252,12 @@ export default class Tetris extends Component {
                     movingPiece={this.state.movingPiece}
                     pilePieces={this.state.pilePieces}
                 />
-                <button
-                    onClick={this.createSPiece}
-                >Add S piece</button>
-                <button
-                    onClick={this.createRandomPiece}
-                >Add random piece</button>
-                <button
-                    onClick={this.startGame}
-                >Start</button>
-                <button
-                    onClick={this.stopGame}
-                >Stop</button>
+                <Stats
+                    createSPiece={this.createSPiece}
+                    createRandomPiece={this.createRandomPiece}
+                    startGame={this.startGame}
+                    score={this.state.score}
+                />
             </div>
         )
     }
