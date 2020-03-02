@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  background-color: grey;
 }
 
 .square{
@@ -27,15 +28,6 @@
 .App{
   display: flex;
   justify-content: center;
-  background-color: grey;
-}
-
-.piece{
-  background-color: red;
-}
-
-.pile{
-  background-color: blue;
 }
 
 .red{
