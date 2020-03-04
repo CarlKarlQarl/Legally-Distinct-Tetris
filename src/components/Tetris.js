@@ -18,35 +18,49 @@ export default class Tetris extends Component {
         lines: 0
     }
 
-    createSPiece = () => {
-        this.setState({
-            movingPiece: Pieces.S
-        })
-    }
-
     createRandomPiece = () => {
         let randomPiece = sample(Pieces)
         this.setState({
             movingPiece: randomPiece
-        })
+        }, this.isGameOver)
     }
 
     startGame = () => {
-        this.createRandomPiece()
+        this.setState({
+            running: true
+        }, () => {
+            if (this.state.running) {
+                this.droppingAnimation()
+            }
+            this.createRandomPiece()
+        })
+    }
+
+    restartGame = () => {
+        this.setState({
+            movingPiece: [],
+            pilePieces: [],
+            running: false,
+            level: 0,
+            score: 0,
+            lines: 0
+        })
     }
 
     handleKeyDown = (event) => {
-        if (event.key === "ArrowDown"){
-            this.movePiece(0, 1)
-        }
-        if (event.key === "ArrowLeft"){
-            this.movePiece(-1, 0)
-        }
-        if (event.key === "ArrowRight"){
-            this.movePiece(1, 0)
-        }
-        if (event.key === "ArrowUp"){
-            this.rotatePiece()
+        if (this.state.running){
+            if (event.key === "ArrowDown"){
+                this.movePiece(0, 1)
+            }
+            if (event.key === "ArrowLeft"){
+                this.movePiece(-1, 0)
+            }
+            if (event.key === "ArrowRight"){
+                this.movePiece(1, 0)
+            }
+            if (event.key === "ArrowUp"){
+                this.rotatePiece()
+            }
         }
     }
 
@@ -108,8 +122,10 @@ export default class Tetris extends Component {
     }
 
     droppingAnimation = () => {
-        this.movePiece(0, 1)
-        setTimeout(this.droppingAnimation, 500 - (this.state.level * 75))
+        if (this.state.running){
+            this.movePiece(0, 1)
+            setTimeout(this.droppingAnimation, 500 - (this.state.level * 75))
+        }
     }
 
     rotatePiece = () => {
@@ -255,12 +271,21 @@ export default class Tetris extends Component {
         })
     }
 
-    componentDidUpdate = () => {
-        if (!this.state.running) {
-            this.setState({
-                running: true
+    isGameOver = () => {
+        let endGame = this.collidingPieces().find(pieceCoord => {
+            return this.state.pilePieces.find(pileCoord => {
+                return (
+                    pileCoord.coordX === pieceCoord.coordX 
+                    && pileCoord.coordY === pieceCoord.coordY
+                    && pileCoord.appear === pieceCoord.appear
+                )
             })
-            this.droppingAnimation()
+        }) ? true : false
+
+        if (endGame){
+            this.setState({
+                running: false
+            })
         }
     }
 
@@ -277,9 +302,8 @@ export default class Tetris extends Component {
                     pilePieces={this.state.pilePieces}
                 />
                 <Stats
-                    createSPiece={this.createSPiece}
-                    createRandomPiece={this.createRandomPiece}
                     startGame={this.startGame}
+                    restartGame={this.restartGame}
                     level={this.state.level}
                     score={this.state.score}
                     lines={this.state.lines}
