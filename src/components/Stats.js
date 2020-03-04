@@ -147,86 +147,102 @@ export default class Stats extends Component {
 
         return (
             <div className="stats">
-                <button
-                    className="start-button"
-                    onClick={startGame}
-                >Start</button>
-                <button
-                    className="restart-button"
-                    onClick={this.restartStats}
-                >Restart</button>
-                <p>Level: {level}</p>
-                <p>Score: {score}</p>
-                <p>Lines: {lines}</p>
-    
-                <p>Currently logged in: {this.state.currentUser}</p>
-                {this.state.currentID !== null
-                    ? <button
-                        className="logout-button" 
-                        onClick={this.logUserOut}
-                        >Log-out</button>
-                    : null
-                }
-                {this.state.currentID !== null
-                    ? <button 
-                        className="post-score-button"
-                        disabled={this.state.isScoreDisabled}
-                        onClick={this.postScore}
-                        >Submit Score</button>
-                    : null
-                }
-                <div className="toggle-container">
+                <div className="game-button-container">
                     <button
-                        onClick={this.moveSignOffScreen}
-                    >Sign-up</button>
+                        className="start-button"
+                        onClick={startGame}
+                    >Start Game</button>
                     <button
-                        onClick={this.moveLogOffScreen}
-                    >Log-in</button>
+                        className="restart-button"
+                        onClick={this.restartStats}
+                    >Restart Game</button>
                 </div>
-                <div className="form-container">
-                    <form
-                        className={"signup-form" + this.state.signVisible}
-                        onSubmit={this.signUpSubmission}
-                    >
-                        <p>Sign-up</p>
-                        <input 
-                            type="text" 
-                            name="signUsername" 
-                            placeholder="Enter username" 
-                            value={this.state.signUsername}
-                            onChange={this.handleTyping}
-                        ></input>
-                        <input 
-                            type="text" 
-                            name="signPassword" 
-                            placeholder="Enter password" 
-                            value={this.state.signPassword}
-                            onChange={this.handleTyping}
-                        ></input>
-                        <input type="submit" value="Sign-up"></input>
-                    </form>
-        
-                    <form
-                        className={"login-form" + this.state.logVisible}
-                        onSubmit={this.logInSubmission}
-                    >
-                        <p>Log in</p>
-                        <input 
-                            type="text" 
-                            name="loginUsername" 
-                            placeholder="Enter username" 
-                            value={this.state.loginUsername}
-                            onChange={this.handleTyping}
-                        ></input>
-                        <input 
-                            type="text" 
-                            name="loginPassword" 
-                            placeholder="Enter password" 
-                            value={this.state.loginPassword}
-                            onChange={this.handleTyping}
-                        ></input>
-                        <input type="submit" value="Log in"></input>
-                    </form>
+
+                <div className="game-stats">
+                    <p className="level-p">Level: {level}</p>
+                    <p className="score-p">Score: {score}</p>
+                    <p className="lines-p">Lines: {lines}</p>
+                </div>
+    
+                <div className="logged-in-user-actions">
+                    <p className="logged-in-message">Current player: {this.state.currentUser}</p>
+                    <div className="logged-in-buttons">
+                        {this.state.currentID !== null
+                            ? <button
+                                className="logout-button" 
+                                onClick={this.logUserOut}
+                                >Log-out</button>
+                            : null
+                        }
+                        {this.state.currentID !== null
+                            ? <button 
+                                className="post-score-button"
+                                disabled={this.state.isScoreDisabled}
+                                onClick={this.postScore}
+                                >Submit Score</button>
+                            : null
+                        }
+                    </div>
+                </div>
+
+                <div className="user-section">
+                    <p className="toggle-prompt">Click here to...</p>
+                    <div className="toggle-container">
+                        <button
+                            className="toggle-buttons"
+                            onClick={this.moveSignOffScreen}
+                        >Sign-up</button>
+                        <p>or</p>
+                        <button
+                            className="toggle-buttons"
+                            onClick={this.moveLogOffScreen}
+                        >Log-in</button>
+                    </div>
+                    <div className="form-container">
+                        <form
+                            className={"signup-form" + this.state.signVisible}
+                            onSubmit={this.signUpSubmission}
+                        >
+                            <p>Sign-up</p>
+                            <input 
+                                type="text" 
+                                name="signUsername" 
+                                placeholder="Enter a username" 
+                                value={this.state.signUsername}
+                                onChange={this.handleTyping}
+                            ></input>
+                            <input 
+                                type="text" 
+                                name="signPassword" 
+                                placeholder="Enter a password" 
+                                value={this.state.signPassword}
+                                onChange={this.handleTyping}
+                            ></input>
+                            <input type="submit" value="Sign-Up"></input>
+                        </form>
+            
+                        <form
+                            className={"login-form" + this.state.logVisible}
+                            onSubmit={this.logInSubmission}
+                        >
+                            <p>Log-in</p>
+                            <input 
+                                type="text" 
+                                name="loginUsername" 
+                                placeholder="Enter your username" 
+                                value={this.state.loginUsername}
+                                onChange={this.handleTyping}
+                            ></input>
+                            <input 
+                                type="text" 
+                                name="loginPassword" 
+                                placeholder="Enter your password" 
+                                value={this.state.loginPassword}
+                                onChange={this.handleTyping}
+                            ></input>
+                            <input type="submit" value="Log-In"></input>
+                        </form>
+                    </div>
                 </div>
                 <Leaderboard/>
             </div>
