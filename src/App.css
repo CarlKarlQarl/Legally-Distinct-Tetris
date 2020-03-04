@@ -42,10 +42,19 @@ form{
 .stats{
   margin: 10px;
   border-style: groove;
+  height: fit-content;
+}
+
+.leaderboard{
+  border-style: groove;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
 }
 
 .leaderboard h1{
-  margin: 1px;
+  margin: 2px;
+  margin-left: 4px;
 }
 
 .tetris{
@@ -58,12 +67,74 @@ form{
   justify-content: center;
 }
 
+.game-button-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .start-button{
   background-color: white;
+  width: 50%;
+  padding: 3px;
+  padding-top: 5px;
+  font-size: 18px;
 }
 
 .restart-button{
   background-color: white;
+  width: 50%;
+  padding: 3px;
+  padding-top: 5px;
+  font-size: 18px;
+}
+
+.game-stats{
+  border-style: groove;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.level-p{
+  margin-left: 5px;
+}
+
+.score-p{
+  margin-left: 5px;
+}
+
+.lines-p{
+  margin-left: 5px;
+}
+
+.logged-in-user-actions{
+  border-style: groove;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.logged-in-message{
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+.logged-in-buttons{
+  display: flex;
+  flex-direction: row;
+}
+
+.logged-in-buttons button{
+  background-color: white;
+  width: 50%;
+  padding: 3px;
+  padding-top: 5px;
+  font-size: 18px;
+}
+
+.user-section{
+  border-style: groove;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 .toggle-container{
@@ -71,9 +142,32 @@ form{
   flex-direction: row;
 }
 
+.toggle-container p{
+  padding-top: 1px;
+}
+
+.toggle-prompt{
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-bottom: 1px;
+}
+
+.toggle-buttons{
+  background-color: white;
+  width: 50%;
+  padding: 3px;
+  padding-top: 3px;
+  font-size: 15px;
+  margin: 1px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
 .form-container{
   display: flex;
   flex-direction: row;
+  margin: 2px;
 }
 
 .signup-form{
@@ -86,10 +180,25 @@ form{
 
 .signup-form p{
   margin: 1px;
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .signup-form input{
   background-color: white;
+  margin: 2px;
+  padding: 2px;
+  width: 200%;
+}
+
+.signup-form input[type=submit]{
+  background-color: #eeeeee;
+  border-radius: 1px;
+  width: fit-content;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .login-form{
@@ -103,10 +212,25 @@ form{
 
 .login-form p{
   margin: 1px;
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .login-form input{
   background-color: white;
+  margin: 2px;
+  padding: 2px;
+  width: 200%;
+}
+
+.login-form input[type=submit]{
+  background-color: #eeeeee;
+  border-radius: 1px;
+  width: fit-content;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .transform-sign{
@@ -120,7 +244,7 @@ form{
   transition: all 0.5s;
   opacity: 1;
   visibility: visible;
-  transform: translateX(-129px);
+  transform: translateX(-141px);
 }
 
 .logout-button{
@@ -135,10 +259,15 @@ form{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .player-and-score p {
   margin: 1px;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 .red{
