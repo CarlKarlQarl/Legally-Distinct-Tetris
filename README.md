@@ -44,3 +44,11 @@ The top ten highest scores are retrieved from the back-end and displayed here.
 - The organization or flow of the side panel needs some work. Elements are organized in by importance (starting the game, list who is playing, signing up, highscores), but they should probably sign-up, log-in, start the game, submit a score, see the score on the board (if high enough), restart the game, and then log-out when done. So, these elements are almost the exact opposite places. I'm fine with the lay-out for now, but there is certainly a better lay-out for these elements.
 - New highscores do not optimistically render. Not a hard change, but the leaderboard is in a weird place, and will need to be passed some more props for this.
 - How much faster the pieces drop per level needs to be more consistent. At present, the drop movement is called every 500 milliseconds minus the level times 50. This means at level 10, the piece should be shooting to the bottom of the board as soon as it is created. The problem is that the change in the delay is linear, but the speed change is exponential. I like my simple formula, but I need to create one that doesn't give the game a very clear ending. The game should end because the play screwed up, not because they weren't as fast as the computer. I mean, they should eventual lose because they were not fast enough, but I'm asking for too much too soon.
+
+# Note to self
+Change speed back after Show and Tech
+
+# Notes from Show and Tech
+- Don't allow duplicate sign-ups
+- Give some response to account creation
+- Give some response to bad/unauthorized login

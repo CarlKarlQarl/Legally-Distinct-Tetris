@@ -124,8 +124,9 @@ export default class Tetris extends Component {
     droppingAnimation = () => {
         if (this.state.running){
             this.movePiece(0, 1)
-            setTimeout(this.droppingAnimation, 500 - (this.state.level * 75))
-            // setTimeout(this.droppingAnimation, 500 - (this.state.lines * 50))
+            setTimeout(this.droppingAnimation, 500 - (this.state.level * 50))
+            //Quick game speed switch for Show and Tech
+            // setTimeout(this.droppingAnimation, 500 - (this.state.lines * 60))
         }
     }
 
