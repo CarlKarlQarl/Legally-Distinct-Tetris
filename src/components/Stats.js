@@ -32,7 +32,7 @@ export default class Stats extends Component {
     signUpSubmission = (event) => {
         event.preventDefault()
         let { signUsername, signPassword } = event.target
-        fetch("https://legally-distinct-tetris-node.herokuapp.com//users", {
+        fetch("https://legally-distinct-tetris-node.herokuapp.com/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -55,7 +55,7 @@ export default class Stats extends Component {
         let { loginUsername, loginPassword } = event.target
         // console.log(loginUsername.value)
         // console.log(loginPassword.value)
-        fetch("https://legally-distinct-tetris-node.herokuapp.com//login", {
+        fetch("https://legally-distinct-tetris-node.herokuapp.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -85,7 +85,7 @@ export default class Stats extends Component {
 
     verifyUser = () => {
         if (localStorage.token){
-            fetch("https://legally-distinct-tetris-node.herokuapp.com//verify", {
+            fetch("https://legally-distinct-tetris-node.herokuapp.com/verify", {
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 }
@@ -106,7 +106,7 @@ export default class Stats extends Component {
             isScoreDisabled: true
         })
         if (this.state.currentID) {
-            fetch("https://legally-distinct-tetris-node.herokuapp.com//scores", {
+            fetch("https://legally-distinct-tetris-node.herokuapp.com/scores", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
