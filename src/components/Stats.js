@@ -9,6 +9,7 @@ export default class Stats extends Component {
         loginUsername: "",
         loginPassword: "",
         isScoreDisabled: false,
+        isStartDisabled: "",
         signVisible: "",
         logVisible: "",
         currentUser: "None",
@@ -22,9 +23,10 @@ export default class Stats extends Component {
         })
     }
 
-    restartStats = () => {
+    restartGame = () => {
         this.setState({
-            isScoreDisabled: false
+            isScoreDisabled: false,
+            isStartDisabled: false
         })
         this.props.restartGame()
     }
@@ -45,6 +47,7 @@ export default class Stats extends Component {
         .then(response => response.json())
         .then(user => {
             console.log("Created new user", user.id, user.username)
+            alert("Sign-up Sucessful! Please go to 'Log-in' with your new account.")
         })
         .catch(error => console.log(error))
 
@@ -139,22 +142,32 @@ export default class Stats extends Component {
     }
 
     componentDidMount = () => {
+        this.setState({
+            isStartDisabled: this.props.running
+        })
         this.verifyUser()
     }
 
     render() {
-        const { startGame, level, score, lines } = this.props
+        const { startGame, focusOnGameBoard, level, score, lines } = this.props
 
         return (
             <div className="stats">
                 <div className="game-button-container">
                     <button
                         className="start-button"
-                        onClick={startGame}
+                        disabled={this.state.isStartDisabled}
+                        onClick={() => {
+                            startGame()
+                            focusOnGameBoard()
+                            this.setState({
+                                isStartDisabled: true
+                            })
+                        }}
                     >Start Game</button>
                     <button
                         className="restart-button"
-                        onClick={this.restartStats}
+                        onClick={this.restartGame}
                     >Restart Game</button>
                 </div>
 
