@@ -8,7 +8,7 @@ export default class Leaderboard extends Component {
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:9000/users")
+        fetch("https://legally-distinct-tetris-node.herokuapp.com/users")
         .then(response => response.json())
         .then(allPlayers => {
             this.setState({
@@ -16,7 +16,7 @@ export default class Leaderboard extends Component {
             })
         })
 
-        fetch("http://localhost:9000/scores")
+        fetch("https://legally-distinct-tetris-node.herokuapp.com/scores")
         .then(response => response.json())
         .then(allScores => {
             this.setState({

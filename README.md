@@ -4,7 +4,11 @@ This is the front-end repository for my Tetris clone. It was built in React, and
 
 For those unfamiliar with Tetris, pieces made out of four blocks will descend from the top of the board and slowly moving toward the bottom of the board. Upon colliding with the bottom of the board or another piece, they will stop moving, remain in that position, and a new piece will start moving down from the top of the board. The goal is to rotate and move the pieces into position where they complete horizontal rows across the board. Once a row is complete, it will be erased, the pile of blocks and pieces will shift down into the newly cleared space, and points will awarded. Clearing multiple lines at once will yield more points than clearing the same number of lines one at a time. As more lines are cleared, the pieces will start to descend more quickly. The game will end once the pile reaches the top of the board, or rather, when a new piece is created on top of the pile.
 
+# Play !Tetris
+https://legally-distinct-tetris.firebaseapp.com/
+
 # Links
+- Heroku: https://dashboard.heroku.com/apps/legally-distinct-tetris-node
 - Front-end Repo: https://github.com/CarlKarlQarl/Legally-Distinct-Tetris
 - Back-end Repo: https://github.com/CarlKarlQarl/Legally-Distinct-Tetris-Backend
 - Local repos (because I'm going to forget):

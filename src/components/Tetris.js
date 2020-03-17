@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import sample from 'lodash/sample'
 import includes from "lodash/includes"
 import Pieces from "../Pieces"
@@ -45,6 +45,12 @@ export default class Tetris extends Component {
             score: 0,
             lines: 0
         })
+    }
+
+    gameboard = createRef()
+
+    focusOnGameBoard = () => {
+        this.gameboard.current.focus()
     }
 
     handleKeyDown = (event) => {
@@ -295,6 +301,8 @@ export default class Tetris extends Component {
         return (
             <div 
                 className="tetris"
+                ref={this.gameboard}
+                tabIndex="0"
                 onKeyDown={this.handleKeyDown}
             >
                 <Board 
@@ -306,6 +314,8 @@ export default class Tetris extends Component {
                 <Stats
                     startGame={this.startGame}
                     restartGame={this.restartGame}
+                    running={this.state.running}
+                    focusOnGameBoard={this.focusOnGameBoard}
                     level={this.state.level}
                     score={this.state.score}
                     lines={this.state.lines}

@@ -60,11 +60,13 @@ form{
 .tetris{
   display: flex;
   flex-direction: row;
+  outline: none;
 }
 
 .App{
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .game-button-container{
